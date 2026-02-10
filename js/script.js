@@ -75,32 +75,31 @@ const playMusic = (track, pause = false) => {
 
 async function displayAlbums() {
 
-    // load albums.json instead of reading /songs/
-    let res = await fetch("songs/albums.json");
+    
+    let res = await fetch("/songs/albums.json");
     let albums = await res.json();
 
     let cardContainer = document.querySelector(".cardContainer");
     cardContainer.innerHTML = "";
 
     albums.forEach(album => {
-
         cardContainer.innerHTML += `
         <div data-folder="${album.folder}" class="card">
-
-            <!-- GREEN PLAY BUTTON (kept same) -->
             <div class="play">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="50" height="50">
-                <circle cx="50" cy="50" r="48" fill="#1DB954"/>
-                <polygon points="40,30 40,70 70,50" fill="black"/>
-              </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="50" height="50">
+                    <circle cx="50" cy="50" r="48" fill="#1DB954"/>
+                    <polygon points="40,30 40,70 70,50" fill="black"/>
+                </svg>
             </div>
 
-            <img src="songs/${album.folder}/cover.jpg">
+            <img src="/songs/${album.folder}/cover.jpg" alt="">
             <h3>${album.title}</h3>
             <p>${album.description}</p>
-        </div>`;
+        </div>
+        `;
     });
 
+    // click listeners
     Array.from(document.getElementsByClassName("card")).forEach(card => {
         card.addEventListener("click", async () => {
             await getSongs(`songs/${card.dataset.folder}`);
@@ -108,6 +107,7 @@ async function displayAlbums() {
         });
     });
 }
+
 
 
 
