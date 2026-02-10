@@ -15,57 +15,42 @@ function secondsToMinutesSeconds(seconds) {
 
 
 async function getSongs(folder) {
-    
+
     currfolder = folder;
-  let a = await fetch(`${folder}/`);
 
-    let response = await a.text();
+    // fetch songs.json instead of folder
+    let res = await fetch(`${folder}/songs.json`);
+    songs = await res.json();
 
-    let div = document.createElement("div");
-    div.innerHTML = response;
+    let songUL = document.querySelector(".songsList ul");
 
-    let as = div.getElementsByTagName("a");
-    songs = [];
-
-    for (let element of as) {
-        if (element.href.endsWith(".mp3")) {
-            songs.push(decodeURIComponent(element.textContent));
-        }
+    if (!songs.length) {
+        songUL.innerHTML = "<li>No songs found</li>";
+        return;
     }
 
+    songUL.innerHTML = "";
 
-    if (songs.length === 0) {
-    document.querySelector(".songsList ul").innerHTML =
-        "<li>No songs found. Select a playlist!</li>";
-    return;
-}
-
-
-    //show all the songs in the playlist
-    let songUL = document.querySelector(".songsList").getElementsByTagName("ul")[0];
-    songUL.innerHTML = ""
-    for (const song of songs) {
-        songUL.innerHTML = songUL.innerHTML + `<li>
-              <img class="invert" src="img/music.svg" alt="">
-              <div class="info">
-                <div>${song.replaceAll(/%5c|%20/gi, " ")}</div>
+    songs.forEach(song => {
+        songUL.innerHTML += `
+        <li>
+            <img class="invert" src="img/music.svg">
+            <div class="info">
+                <div>${song}</div>
                 <div>Mehak</div>
-              </div>
-              <div class="playnow">
+            </div>
+            <div class="playnow">
                 <span>Play Now</span>
-                <img class="invert" src="img/play.svg" alt="">
-              </div>
-            </li>`;
-    }
+                <img class="invert" src="img/play.svg">
+            </div>
+        </li>`;
+    });
 
-    //  Attach an event listener to each song
-    Array.from(document.querySelector(".songsList").getElementsByTagName("li")).forEach(e => {
-        e.addEventListener("click", element => {
-            console.log(e.querySelector(".info").firstElementChild.innerHTML)
-            playMusic(e.querySelector(".info").firstElementChild.innerHTML.trim())
-        })
-    })
+    Array.from(songUL.getElementsByTagName("li")).forEach((e, i) => {
+        e.addEventListener("click", () => playMusic(songs[i]));
+    });
 }
+
 
 
 const playMusic = (track, pause = false) => {
@@ -142,11 +127,12 @@ async function displayAlbums() {
 
 async function main() {
     //get the list of all songs
-    await getSongs("songs/ncs");
+   await getSongs("songs/angry - mood");
 
-   if (songs.length > 0) {
-    playMusic(songs[0], true);
-}
+
+    if (songs.length > 0) {
+        playMusic(songs[0], true);
+    }
 
 
     //Display all the albums on the page.
