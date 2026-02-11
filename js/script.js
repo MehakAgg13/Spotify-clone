@@ -13,22 +13,14 @@ function secondsToMinutesSeconds(seconds) {
     return String(mins).padStart(2, "0") + ":" + String(secs).padStart(2, "0");
 }
 
-
 async function getSongs(folder) {
 
-    currfolder = folder;
+    currfolder = `songs/${folder}`;
 
-    // fetch songs.json instead of folder
-    let res = await fetch(`${folder}/songs.json`);
+    let res = await fetch(`songs/${folder}/songs.json`);
     songs = await res.json();
 
     let songUL = document.querySelector(".songsList ul");
-
-    if (!songs.length) {
-        songUL.innerHTML = "<li>No songs found</li>";
-        return;
-    }
-
     songUL.innerHTML = "";
 
     songs.forEach(song => {
@@ -50,6 +42,7 @@ async function getSongs(folder) {
         e.addEventListener("click", () => playMusic(songs[i]));
     });
 }
+
 
 
 
@@ -102,7 +95,7 @@ async function displayAlbums() {
     // click listeners
     Array.from(document.getElementsByClassName("card")).forEach(card => {
         card.addEventListener("click", async () => {
-            await getSongs(`songs/${card.dataset.folder}`);
+            await getSongs(card.dataset.folder);
             playMusic(songs[0]);
         });
     });
@@ -113,7 +106,7 @@ async function displayAlbums() {
 
 async function main() {
     //get the list of all songs
-   await getSongs("songs/angry - mood");
+   await getSongs("angry - mood");
 
 
     if (songs.length > 0) {
