@@ -14,8 +14,7 @@ function secondsToMinutesSeconds(seconds) {
 }
 
 async function getSongs(folder) {
-
-    currfolder = `songs/${folder}`;
+    currfolder = folder;
 
     let res = await fetch(`/songs/${folder}/songs.json`);
     songs = await res.json();
@@ -38,7 +37,7 @@ async function getSongs(folder) {
         </li>`;
     });
 
-    Array.from(songUL.getElementsByTagName("li")).forEach((e, i) => {
+    Array.from(songUL.children).forEach((e, i) => {
         e.addEventListener("click", () => playMusic(songs[i]));
     });
 }
@@ -47,24 +46,17 @@ async function getSongs(folder) {
 
 
 const playMusic = (track, pause = false) => {
-    // let audio= new Audio("/songs/"+ track)
-
-    track = decodeURIComponent(track).replaceAll("&amp;", "&");
-    currentSong.src = `/songs/${folder}/${track}`;
+    currentSong.src = `/songs/${currfolder}/${track}`;
 
     if (!pause) {
-        currentSong.play()
-        play.src = "img/pause.svg"
+        currentSong.play();
+        play.src = "img/pause.svg";
     }
 
+    document.querySelector(".songInfo").innerText = track;
+    document.querySelector(".songTime").innerText = "00:00 / 00:00";
+};
 
-    document.querySelector(".songInfo").innerHTML = decodeURI(track);
-    document.querySelector(".songInfo").innerHTML =
-        track.replaceAll("\\", "").replaceAll(/%5c|%20/gi, " ");
-
-    document.querySelector(".songTime").innerHTML = "00:00 / 00:00"
-
-}
 
 async function displayAlbums() {
 
