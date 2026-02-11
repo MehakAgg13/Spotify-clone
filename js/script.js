@@ -17,7 +17,7 @@ async function getSongs(folder) {
 
     currfolder = `songs/${folder}`;
 
-    let res = await fetch(`songs/${folder}/songs.json`);
+    let res = await fetch(`/songs/${folder}/songs.json`);
     songs = await res.json();
 
     let songUL = document.querySelector(".songsList ul");
@@ -50,7 +50,7 @@ const playMusic = (track, pause = false) => {
     // let audio= new Audio("/songs/"+ track)
 
     track = decodeURIComponent(track).replaceAll("&amp;", "&");
-    currentSong.src = `${currfolder}/` + track
+    currentSong.src = `/songs/${folder}/${track}`;
 
     if (!pause) {
         currentSong.play()
@@ -106,7 +106,7 @@ async function displayAlbums() {
 
 async function main() {
     //get the list of all songs
-   await getSongs("angry - mood");
+   await getSongs("angry-mood");
 
 
     if (songs.length > 0) {
