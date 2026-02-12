@@ -490,6 +490,7 @@ body {
         justify-content: center;
         overflow-y: auto;
         max-height: 50vh;
+        margin-bottom: 35px;
 
     }
 }
