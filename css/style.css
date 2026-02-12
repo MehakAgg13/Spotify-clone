@@ -412,7 +412,7 @@ body {
         display: block;
         align-self: flex-end;
         position: absolute;
-        top: 30px;
+        top: 14px;
         right: 50px;
         cursor: pointer;
 
@@ -469,7 +469,7 @@ body {
     }
 
     .playbar {
-       width: calc(100vw - 50px);
+       width: calc(100vw - 20px);
        align-self: center;
         font-size: large;
 
@@ -541,6 +541,9 @@ body {
 
     .cardContainer{
         margin-left: 36px;
+        align-items: center;
+        justify-content: center;
     }
+
 
 }
