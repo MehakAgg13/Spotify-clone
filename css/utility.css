@@ -20,6 +20,7 @@
 
 .bg-grey {
     background-color: #121212;
+    /* background-color:#7b0606; */
     color: white;
 }
 
@@ -28,12 +29,11 @@
 }
 
 .m-1 {
-    margin: 5px;
     margin-bottom: 10px;
 }
-.p-1 {
+/* .p-1 {
         padding: 20px;
-}
+} */
 
 
 /* ===== DARK SCROLLBAR ===== */
@@ -57,10 +57,6 @@
   background-color: #777;
 }
 
-html, body {
-    height: 100%;
-    overflow: hidden;
-}
 
 .main {
     display: flex;
